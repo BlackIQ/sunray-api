@@ -33,3 +33,19 @@ export const RAY = async (req, res) => {
     return res.status(500).send({ error: error.message });
   }
 };
+
+export const STAT = async (req, res) => {
+  try {
+    const clients = await Client.find();
+
+    const data = {
+      all: clients.length,
+      privates: clients.filter((client) => client.type === "private").length,
+      groups: clients.filter((client) => client.type === "group").length,
+    };
+
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};

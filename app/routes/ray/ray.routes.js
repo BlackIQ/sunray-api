@@ -10,5 +10,6 @@ import { Ray } from "$app/controllers/index.js";
 const router = express.Router();
 
 router.get("/", Ray.RAY);
+router.get("/stat", Ray.STAT);
 
 export default router;
