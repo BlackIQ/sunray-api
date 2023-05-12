@@ -1,15 +1,18 @@
 import { Client, Upload } from "$app/models/index.js";
+import { getDate } from "$app/functions/index.js";
 import { botConfig } from "$app/config/index.js";
 
 import axios from "axios";
 
 export const RAY = async (req, res) => {
+  const { time } = req.query;
+
+  const date = getDate();
+
   try {
     const clients = await Client.find().select("chatId");
 
-    const { fileId: photo } = await Upload.findOne().sort({
-      createdAt: "desc",
-    });
+    const upload = await Upload.findOne({ date, time });
 
     await Promise.all(
       clients.map(async (client) => {
@@ -18,10 +21,8 @@ export const RAY = async (req, res) => {
         try {
           const { data } = await axios.post(url, {
             chat_id: client.chatId,
-            photo,
+            photo: upload.fileId,
           });
-
-          console.log(data);
         } catch (error) {
           console.log(error.message);
         }

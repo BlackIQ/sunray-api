@@ -46,35 +46,3 @@ export const DELETE = async (req, res) => {
     return res.status(500).send({ error: error.message });
   }
 };
-
-export const TEST = async (req, res) => {
-  try {
-    const clients = await Client.find();
-
-    await Promise.all(
-      clients.map(async (client) => {
-        console.log(`Going for ${client.chatId}, ${client.type}`);
-
-        const url = `https://api.telegram.org/bot${botConfig.token}/sendPhoto`;
-
-        const photo =
-          "https://cdn.amirhossein.info/sunray/may-11-2023-night.jpg";
-
-        try {
-          const { data } = await axios.post(url, {
-            chat_id: client.chatId,
-            photo,
-          });
-
-          console.log(data);
-        } catch (error) {
-          console.log(error.message);
-        }
-      })
-    );
-
-    return res.status(200).send({ message: "Done" });
-  } catch (error) {
-    return res.status(500).send({ error: error.message });
-  }
-};
