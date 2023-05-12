@@ -8,11 +8,15 @@ const schema = Schema(
   {
     chatId: {
       type: Number,
-      required: true,
+      default: "",
     },
     type: {
       type: String,
-      required: true,
+      default: "",
+    },
+    isStoped: {
+      type: Boolean,
+      default: false,
     },
   },
   {

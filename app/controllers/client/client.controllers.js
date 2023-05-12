@@ -10,6 +10,22 @@ export const ALL = async (req, res) => {
   }
 };
 
+export const SINGLE = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const client = await Client.find({ chatId: Number(id) });
+
+    if (!client) {
+      return res.status(200).send({ message: "User not found" });
+    }
+
+    return res.status(200).send(client);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
 export const CREATE = async (req, res) => {
   const data = req.body;
 
