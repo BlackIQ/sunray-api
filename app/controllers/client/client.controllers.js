@@ -1,7 +1,4 @@
 import { Client } from "$app/models/index.js";
-import { botConfig } from "$app/config/index.js";
-
-import axios from "axios";
 
 export const ALL = async (req, res) => {
   try {
@@ -42,6 +39,23 @@ export const DELETE = async (req, res) => {
     }
 
     return res.status(200).send({ message: "You are deleted from the list" });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+export const UPDATE = async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  try {
+    const client = await Client.findByIdAndUpdate(id, { $set: data });
+
+    if (!client) {
+      return res.status(200).send({ message: "Client not found" });
+    }
+
+    return res.status(200).send({ message: "Client updated" });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
