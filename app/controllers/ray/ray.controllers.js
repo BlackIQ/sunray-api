@@ -1,13 +1,12 @@
 import { Client, Upload } from "$app/models/index.js";
-import { getDate } from "$app/functions/index.js";
+import { getDate, getTime } from "$app/functions/index.js";
 import { botConfig } from "$app/config/index.js";
 
 import axios from "axios";
 
 export const RAY = async (req, res) => {
-  const { time } = req.query;
-
   const date = getDate();
+  const time = getTime() === "AM" ? "morning" : "night";
 
   try {
     const clients = await Client.find().select("chatId");
