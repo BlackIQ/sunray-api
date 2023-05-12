@@ -12,5 +12,6 @@ const router = express.Router();
 router.get("/", Client.ALL);
 router.post("/", Client.CREATE);
 router.delete("/:id", Client.DELETE);
+router.patch("/:id", Client.UPDATE);
 
 export default router;
