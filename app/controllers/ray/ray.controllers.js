@@ -22,7 +22,7 @@ export const RAY = async (req, res) => {
         const url = `https://api.telegram.org/bot${botConfig.token}/sendPhoto`;
 
         try {
-          const { data } = await axios.post(url, {
+          await axios.post(url, {
             chat_id: client.chatId,
             photo: upload.fileId,
           });
