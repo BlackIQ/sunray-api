@@ -14,9 +14,9 @@ const schema = Schema(
       type: String,
       default: "",
     },
-    date: {
-      type: String,
-      default: "",
+    isSent: {
+      type: Boolean,
+      default: false,
     },
   },
   {

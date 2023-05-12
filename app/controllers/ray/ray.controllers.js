@@ -1,17 +1,21 @@
 import { Client, Upload } from "$app/models/index.js";
-import { getDate, getTime } from "$app/functions/index.js";
 import { botConfig } from "$app/config/index.js";
 
 import axios from "axios";
 
 export const RAY = async (req, res) => {
-  const date = getDate();
-  const time = getTime() === "PM" ? "morning" : "night";
+  const { time } = req.query;
 
   try {
     const clients = await Client.find().select("chatId");
 
-    const upload = await Upload.findOne({ date, time });
+    const upload = await Upload.findOne({ time, isSent: false });
+
+    if (!upload) {
+      return res.status(404).send({ message: "No item found" });
+    }
+
+    await Upload.findByIdAndUpdate(upload._id, { $set: { isSent: true } });
 
     await Promise.all(
       clients.map(async (client) => {
@@ -28,7 +32,7 @@ export const RAY = async (req, res) => {
       })
     );
 
-    return res.status(200).send({ message: "Done" });
+    return res.status(200).send({ message: "Done", upload });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
