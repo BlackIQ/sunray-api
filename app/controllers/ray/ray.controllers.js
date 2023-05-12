@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const RAY = async (req, res) => {
   const date = getDate();
-  const time = getTime() === "AM" ? "morning" : "night";
+  const time = getTime() === "PM" ? "morning" : "night";
 
   try {
     const clients = await Client.find().select("chatId");
